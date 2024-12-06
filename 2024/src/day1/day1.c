@@ -10,6 +10,15 @@
 // constexpr int INSIZE = 1000; // constexpr not working? or am I using it wrong...
 #define INSIZE 1000
 
+int cmp(const void* a, const void* b) {
+  int arg1 = *(const int*)a;
+  int arg2 = *(const int*)b;
+
+  if (arg1 < arg2) return -1;
+  if (arg1 > arg2) return  1;
+  return 0;
+}
+
 int main(int argc, char *argv[])
 {
   puts(INPUTDIR"/day1/day1.input");
@@ -25,8 +34,24 @@ int main(int argc, char *argv[])
     int n = fscanf(input, "%d%d", &left[i], &right[i]);
   }
 
-  /* printf("%d   %d\n", left[0], right[0]); */
-  /* printf("%d   %d\n", left[INSIZE-1], right[INSIZE-1]); */
+  qsort(left, INSIZE, sizeof(int), cmp);
+  qsort(right, INSIZE, sizeof(int), cmp);
+
+  //////////////////////////////////////////////////////////////////////////////
+  /// part 1
+  int diff = 0;
+  int result = 0;
+  for (int i = 0; i < INSIZE; ++i) {
+    diff = abs(left[i] - right[i]);
+    result += diff;
+  }
+
+  // Result for part 1
+  printf("Result = %d\n", result);
+
+  //////////////////////////////////////////////////////////////////////////////
+  /// part 2
+
 
   fclose(input);
   return EXIT_SUCCESS;
